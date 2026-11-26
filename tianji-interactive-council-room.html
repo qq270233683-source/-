@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101a22">
+<title>天机 · 决策智囊团</title>
+<style>
+:root{--bg:#0d151c;--panel:#15232d;--panel2:#1b2c37;--line:#344955;--gold:#c6a66a;--gold2:#e4c98f;--text:#edf0ed;--muted:#9eafb4;--cyan:#83b9bd;--danger:#d58c77;--shadow:0 18px 50px #0006}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -10%,#31424a 0,#101a22 46%,#0a1117 100%);color:var(--text);font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif;min-height:100vh}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.topbar{height:64px;border-bottom:1px solid #ffffff18;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,56px);background:#0b141bd9;backdrop-filter:blur(12px);position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:12px}.seal{width:34px;height:34px;border:1px solid var(--gold);color:var(--gold2);display:grid;place-items:center;border-radius:8px;font-family:serif;font-size:20px}.brand b{letter-spacing:3px;font-size:15px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px;margin-top:3px}
+.top-actions{display:flex;gap:8px;align-items:center}.pill{border:1px solid #ffffff25;color:var(--muted);padding:7px 11px;border-radius:30px;font-size:11px}
+main{max-width:1440px;margin:auto;padding:26px clamp(14px,3vw,40px) 56px}
+.hero{display:flex;justify-content:space-between;align-items:end;gap:20px;margin-bottom:20px}.eyebrow{color:var(--gold2);font-size:11px;letter-spacing:3px}.hero h1{font-family:"Noto Serif SC","Songti SC",serif;font-size:clamp(27px,4vw,43px);font-weight:500;margin:8px 0 5px;letter-spacing:4px}.hero p{margin:0;color:var(--muted);font-size:13px}.status{font-size:11px;color:var(--cyan);border:1px solid #83b9bd55;padding:8px 12px;border-radius:20px;white-space:nowrap}
+.workspace{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,.85fr);gap:18px;align-items:start}
+.scene{position:relative;min-height:560px;border:1px solid #a58d6048;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);background:#17242b;isolation:isolate}
+.scene:before{content:"";position:absolute;inset:0;z-index:-2;background:
+linear-gradient(180deg,#0c171a18 0%,#0b141a55 55%,#081015ed 100%),
+radial-gradient(ellipse at 50% 18%,#d4c5a355 0%,transparent 35%),
+linear-gradient(90deg,transparent 0 8%,#78909922 8.3% 8.7%,transparent 9% 91%,#78909922 91.3% 91.7%,transparent 92%),
+linear-gradient(180deg,#31434a 0%,#1a2a32 55%,#101b22 100%)}
+.scene:after{content:"";position:absolute;inset:0;z-index:-1;opacity:.55;background:repeating-linear-gradient(90deg,transparent 0 9%,#d6c5a00a 9.2% 9.5%,transparent 9.7% 18%)}
+.scene[data-scene="business"]:before{background:linear-gradient(180deg,#111c2470,#0a1219ed),radial-gradient(ellipse at 50% 15%,#b4c6c755,transparent 40%),linear-gradient(90deg,#273c47,#172831 45%,#273c47)}
+.scene[data-scene="strategy"]:before{background:linear-gradient(180deg,#1b222d44,#080e17f2),radial-gradient(ellipse at 50% 20%,#c39c5d66,transparent 38%),linear-gradient(135deg,#34404a,#141e2b 55%,#202b34)}
+.scene[data-scene="life"]:before{background:linear-gradient(180deg,#263b3c55,#0b1719f0),radial-gradient(ellipse at 50% 18%,#d9c59a55,transparent 40%),linear-gradient(90deg,#40534d,#203631 50%,#40534d)}
+.scene[data-scene="investment"]:before{background:linear-gradient(180deg,#172a3977,#09121bf2),radial-gradient(ellipse at 50% 15%,#6ca2b666,transparent 38%),linear-gradient(135deg,#18394a,#101c2a 55%,#26394a)}
+.scene[data-scene="people"]:before{background:linear-gradient(180deg,#3b2c2755,#100f12f2),radial-gradient(ellipse at 50% 15%,#c8a57a55,transparent 40%),linear-gradient(90deg,#493a34,#241f20 50%,#493a34)}
+.scene-head{position:relative;z-index:1;padding:24px 26px 0;display:flex;justify-content:space-between;gap:10px}.scene-head .tag{color:var(--gold2);font-size:10px;letter-spacing:2px}.scene-head h2{font-family:"Noto Serif SC","Songti SC",serif;font-weight:500;font-size:23px;margin:7px 0}.scene-head p{font-size:11px;color:#c4ceca;margin:0}.scene-controls{display:flex;gap:7px;align-items:flex-start}.mini{border:1px solid #ffffff38;background:#09151c88;color:#dce5df;border-radius:7px;padding:7px 10px;font-size:11px}
+.room{position:relative;margin:18px auto 0;width:94%;height:310px;perspective:900px}
+.window{position:absolute;left:15%;right:15%;top:0;height:126px;border:7px solid #8d9c9a33;border-bottom:3px solid #9ba9a055;background:linear-gradient(180deg,#7c9ba055,#243c4555);box-shadow:inset 0 0 30px #c8d9d922}
+.window:before,.window:after{content:"";position:absolute;background:#aab9b455}.window:before{width:3px;top:0;bottom:0;left:50%}.window:after{height:3px;left:0;right:0;top:50%}
+.wall-scroll{position:absolute;top:17px;left:50%;transform:translateX(-50%);font-family:serif;letter-spacing:8px;color:#e3d1a9aa;font-size:17px;white-space:nowrap;text-shadow:0 2px 12px #000}
+.table{position:absolute;left:9%;right:9%;top:158px;height:125px;background:linear-gradient(180deg,#8d6d4d,#4b382d 55%,#2c2928);clip-path:polygon(8% 0,92% 0,100% 100%,0 100%);border-top:4px solid #c5a477;box-shadow:0 30px 40px #0009}
+.table:before{content:"";position:absolute;inset:8px 12% 35%;background:linear-gradient(90deg,#bba17a22,#e3cfaa44,#bba17a22);border-radius:50%}
+.table-glow{position:absolute;left:24%;right:24%;top:186px;height:4px;background:#dfc28c55;filter:blur(8px)}
+.members{position:absolute;left:0;right:0;top:96px;display:flex;justify-content:space-around;align-items:end;z-index:2;padding:0 3%}
+.member{width:13.4%;min-width:58px;text-align:center;cursor:pointer;transition:.2s;position:relative}
+.member:hover,.member.active{transform:translateY(-8px)}.member.active .avatar{border-color:var(--gold2);box-shadow:0 0 0 3px #c6a66a33,0 8px 25px #0008}
+.avatar{width:clamp(48px,6vw,76px);height:clamp(48px,6vw,76px);margin:auto;border-radius:50%;border:2px solid #c5b38b88;background:radial-gradient(circle at 40% 28%,#d4c2a1,#6c675d 62%,#303c3d);display:grid;place-items:center;font-family:serif;font-size:clamp(20px,2.6vw,31px);color:#1a2427;box-shadow:0 7px 18px #0007;position:relative}
+.avatar.ancient{background:radial-gradient(circle at 40% 25%,#d9c8a7,#7a6752 65%,#273238)}.avatar.modern{background:radial-gradient(circle at 40% 25%,#c3d5d1,#637b7c 65%,#1e303a)}
+.member-name{font-family:"Noto Serif SC","Songti SC",serif;font-size:11px;margin-top:7px;color:#f0e6d2;text-shadow:0 2px 8px #000}.member-role{font-size:9px;color:#b9c3c1;margin-top:2px}
+.seat{height:36px;width:70%;margin:5px auto 0;border-radius:10px 10px 2px 2px;background:linear-gradient(90deg,#28343a,#667274,#263239);opacity:.85}
+.floor{position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(180deg,#1c2a30,#0a1217);border-top:1px solid #bda77922}
+.floor:after{content:"";position:absolute;left:10%;right:10%;top:10px;height:1px;background:#c7ae7955;box-shadow:0 18px #c7ae7922,0 36px #c7ae7918}
+.scene-foot{position:absolute;bottom:16px;left:25px;right:25px;display:flex;justify-content:space-between;align-items:end;z-index:3}.meeting-label{font-size:10px;letter-spacing:2px;color:#cdbb91}.meeting-count{font-size:10px;color:#9aabae}
+.side{display:flex;flex-direction:column;gap:14px}.panel{background:linear-gradient(145deg,#1a2a34ed,#111d25f5);border:1px solid #ffffff1a;border-radius:13px;padding:17px;box-shadow:0 12px 30px #0003}
+.panel-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.panel-title b{font-size:13px;font-weight:600;letter-spacing:1px}.panel-title span{font-size:10px;color:var(--muted)}
+label{display:block;color:#aebdc0;font-size:11px;margin:10px 0 6px}input,select,textarea{width:100%;background:#0c171e;border:1px solid #3b505b;border-radius:8px;color:#eef0e9;padding:10px 11px;outline:none}textarea{resize:vertical;min-height:74px;line-height:1.6}input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+.btn{border:1px solid #b99a61;background:linear-gradient(135deg,#c8ab73,#9c7c49);color:#171b1b;border-radius:8px;padding:10px 13px;font-weight:700;font-size:12px}.btn.secondary{background:#1d303a;color:#e8ece7;border-color:#526671}.btn.ghost{background:transparent;color:#d6dfdb;border-color:#51636a}.btn:disabled{opacity:.4;cursor:not-allowed}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}.actions .wide{grid-column:1/-1}
+.speaker{display:flex;gap:12px;align-items:center}.speaker .avatar{width:48px;height:48px;flex:none;font-size:21px}.speaker h3{font-family:"Noto Serif SC","Songti SC",serif;font-size:16px;margin:0 0 4px}.speaker small{color:var(--muted);font-size:10px}.speech{border-left:2px solid var(--gold);padding:10px 0 10px 13px;margin-top:13px;color:#e0e6df;font-size:12px;line-height:1.8;min-height:88px}.speech em{display:block;color:var(--gold2);font-size:10px;font-style:normal;margin-bottom:4px;letter-spacing:1px}
+.empty{color:#91a2a6;font-size:12px;line-height:1.7}.report{font-size:12px;line-height:1.8;color:#dce4df;white-space:pre-wrap;max-height:380px;overflow:auto}.report strong{color:var(--gold2)}
+.footer-note{margin-top:17px;color:#7e9297;font-size:10px;line-height:1.7;text-align:center}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 15px;background:#e2c78e;color:#172127;border-radius:8px;font-size:12px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.25s;z-index:20}.toast.show{opacity:1}
+@media(max-width:900px){.workspace{grid-template-columns:1fr}.scene{min-height:520px}.side{display:grid;grid-template-columns:1fr 1fr}.side .widepanel{grid-column:1/-1}}
+@media(max-width:600px){.hero{align-items:flex-start;flex-direction:column}.scene{min-height:475px}.scene-head{padding:17px 16px 0}.scene-head h2{font-size:19px}.room{height:275px;margin-top:25px}.members{top:100px;padding:0 1%}.member{min-width:0}.member-role{display:none}.seat{height:28px}.table{top:163px;height:105px}.table-glow{top:184px}.side{display:flex}.scene-foot{left:16px;right:16px}.pill{display:none}}
+</style>
+</head>
+<body>
+<header class="topbar">
+ <div class="brand"><div class="seal">天</div><div><b>天机 · 决策智囊团</b><small>THE STRATEGIC MIND · COUNCIL ROOM</small></div></div>
+ <div class="top-actions"><span class="pill">古今人物融合 · 交互会议版</span><span class="pill">PROTOTYPE 1.1</span></div>
+</header>
+<main>
+ <section class="hero">
+  <div><div class="eyebrow">A ROOM FOR BETTER DECISIONS</div><h1>让不同思想，在同一张桌上交锋</h1><p>选择议题，召集智囊，听取观点，发起质询，形成可执行的决策。</p></div>
+  <div class="status">● 会议室待命 · 本地交互演示</div>
+ </section>
+ <div class="workspace">
+  <section class="scene" id="scene" data-scene="business">
+   <div class="scene-head">
+    <div><div class="tag" id="sceneTag">COUNCIL ROOM / 商业决策厅</div><h2 id="sceneTitle">古今同席 · 商业决策会议</h2><p id="sceneSub">以事实为桌，以逻辑为刃，以风险为界</p></div>
+    <div class="scene-controls"><button class="mini" id="prevScene">‹ 场景</button><button class="mini" id="nextScene">场景 ›</button></div>
+   </div>
+   <div class="room">
+    <div class="window"></div><div class="wall-scroll" id="wallText">观势 · 识人 · 谋局 · 定夺</div>
+    <div class="members" id="members"></div><div class="table"></div><div class="table-glow"></div>
+   </div>
+   <div class="floor"></div>
+   <div class="scene-foot"><div class="meeting-label" id="meetingLabel">MEETING 001 · BUSINESS STRATEGY</div><div class="meeting-count" id="meetingCount">12 位核心智囊可召集</div></div>
+  </section>
+  <aside class="side">
+   <section class="panel">
+    <div class="panel-title"><b>发起一项决策</b><span>01 / DEFINE</span></div>
+    <label for="topic">你要解决什么问题？</label>
+    <textarea id="topic" placeholder="例如：我准备与一家渠道商合作，对方掌握客户资源，但要求我先垫资。"></textarea>
+    <label for="domain">决策领域 / 场景</label>
+    <select id="domain">
+     <option value="auto">自动识别场景</option><option value="business">商业经营 / 合作</option><option value="strategy">战略布局 / 竞争</option><option value="investment">投资 / 资金配置</option><option value="people">识人 / 组织关系</option><option value="life">人生 / 职业选择</option>
+    </select>
+    <div class="actions"><button class="btn wide" id="start">召集智囊 · 开始会议</button></div>
+   </section>
+   <section class="panel">
+    <div class="panel-title"><b>当前发言</b><span>02 / VOICE</span></div>
+    <div id="speakerBox" class="empty">会议开始后，选择桌边任意一位智囊，查看他的分析视角。</div>
+    <div class="actions"><button class="btn secondary" id="ask" disabled>请他深入分析</button><button class="btn ghost" id="nextSpeaker" disabled>下一位发言</button></div>
+   </section>
+   <section class="panel widepanel">
+    <div class="panel-title"><b>会议进程与裁决</b><span>03 / DEBATE</span></div>
+    <div class="actions">
+     <button class="btn secondary" id="debate" disabled>发起交叉质询</button>
+     <button class="btn secondary" id="verdict" disabled>首席决策官裁决</button>
+     <button class="btn ghost wide" id="reset">重置会议</button>
+    </div>
+    <div id="report" class="report empty" style="margin-top:13px">等待议题输入。会议将依次进行独立分析、观点交锋、风险审查与最终裁决。</div>
+   </section>
+  </aside>
+ </div>
+ <div class="footer-note">本版本为可交互前端原型：内置示例推理用于演示会议流程，不代表已连接实时 AI 模型。接入模型后，角色分析与辩论可针对用户议题动态生成。历史人物以思想分析视角呈现，不代表其真实发言。</div>
+</main>
+<div class="toast" id="toast"></div>
+<script>
+const roster=[
+ {id:"sun",name:"孙武",en:"SUN TZU",role:"战略 / 竞争",kind:"ancient",glyph:"武",lens:"先判断胜负条件、双方优势与竞争位置。不要急着投入，先看是否值得打、在哪里打、怎样减少消耗。",ask:"我会先问：这件事的胜利条件是什么？如果关键资源、时间或信息不占优势，正面推进可能只是把成本放大。先寻找不必硬碰硬的路径，再决定投入规模。",challenge:"你把市场机会当成了必胜条件。对手、替代方案和时机都没有被验证。"},
+ {id:"gui",name:"鬼谷子",en:"GUIGUZI",role:"人性 / 利益结构",kind:"ancient",glyph:"纵",lens:"拆解参与者的利益、权力、资源、依赖与替代选择。观察行为，不把动机猜测当事实。",ask:"先别只听对方怎么说，要把利益结构摆到桌面上：谁掌握客户，谁承担资金风险，谁控制交付，谁拥有退出权？把承诺变成可核验的条款。",challenge:"合作关系的关键变量不是口头态度，而是利益和权责是否对称。"},
+ {id:"fan",name:"范蠡",en:"FAN LI",role:"商业 / 时机与进退",kind:"ancient",glyph:"陶",lens:"看需求阶段、利润来源、现金周转、风险暴露和进退时机。",ask:"利润看起来不错，不代表现金能回来。把毛利、账期、库存、售后、坏账和资金占用算在一起。先小规模验证，再决定是否扩大。",challenge:"你只算了成交利润，没有算资金周转和退出成本。"},
+ {id:"han",name:"韩非",en:"HAN FEI",role:"制度 / 权责与治理",kind:"ancient",glyph:"法",lens:"用制度、权责、监督和激励检查组织是否过度依赖个人。",ask:"这件事能不能写成规则？谁有决策权，谁执行，谁验收，谁承担责任？如果关键人物明天离开，系统还能不能运转？",challenge:"没有明确权责和监督机制，所谓合作只是把风险交给关系。"},
+ {id:"machi",name:"马基雅维利",en:"MACHIAVELLI",role:"权力 / 联盟与现实",kind:"ancient",glyph:"权",lens:"分析正式权力、实际影响力、联盟稳定性、合法性和长期信任。",ask:"要看清谁真正控制关键资源，谁能改变规则，谁在承担后果。短期达成协议不等于长期联盟稳定。",challenge:"你把对方的职位或承诺当成了真实控制力，尚未验证其兑现能力。"},
+ {id:"drucker",name:"德鲁克",en:"PETER DRUCKER",role:"经营 / 客户价值",kind:"modern",glyph:"客",lens:"从客户、价值、成果、管理责任和组织效能判断方案。",ask:"先回到客户：谁真正需要这个产品或服务？客户为什么付费？是否有重复购买或真实订单证据？没有客户价值，内部再忙也只是活动，不是成果。",challenge:"你在讨论合作形式，却没有证明终端客户的真实需求。"},
+ {id:"porter",name:"迈克尔·波特",en:"MICHAEL PORTER",role:"竞争 / 行业结构",kind:"modern",glyph:"竞",lens:"分析五力、价值链、战略取舍和竞争优势的可持续性。",ask:"分析供应商、客户、替代品、潜在进入者和现有竞争者的议价能力。你的优势究竟来自成本、差异化，还是渠道控制？它能持续多久？",challenge:"如果你的优势很容易被复制，短期利润可能吸引更多竞争者进入。"},
+ {id:"munger",name:"查理·芒格",en:"CHARLIE MUNGER",role:"认知 / 逆向思维",kind:"modern",glyph:"逆",lens:"从失败倒推，检查激励、机会成本、过度自信和能力圈。",ask:"先问一个反向问题：什么事情会让这笔交易变成灾难？你是不是因为已经投入时间、人情或成本，就不愿意退出？找出最便宜的反证实验。",challenge:"你可能正在用乐观故事填补证据空白，也可能低估了机会成本。"},
+ {id:"kah",name:"丹尼尔·卡尼曼",en:"DANIEL KAHNEMAN",role:"心理 / 判断偏差",kind:"modern",glyph:"思",lens:"检查锚定、损失厌恶、可得性、基准率和过度自信。",ask:"你现在的判断是否被一个高利润数字锚定？请找同类项目的基准率，列出失败案例，并把预测拆成可验证的变量。",challenge:"单个成功案例不能代表整体概率。你可能只看见了幸存者。"},
+ {id:"taleb",name:"纳西姆·塔勒布",en:"NASSIM TALEB",role:"风险 / 反脆弱",kind:"modern",glyph:"险",lens:"识别尾部风险、单点故障、杠杆、不可逆损失和选择权。",ask:"先确定最坏情况下你会损失什么，能不能承受？如果关键合作方退出、客户延期付款、成本超支，现金流是否还能活下来？不要用平均收益掩盖毁灭性风险。",challenge:"方案的上行收益归你，尾部损失却可能由你独自承担。"},
+ {id:"lao",name:"老子",en:"LAOZI",role:"规律 / 节奏与克制",kind:"ancient",glyph:"道",lens:"观察系统反馈、行动时机、过度干预和低摩擦替代路径。",ask:"是否一定要现在做、一次做大？有时减少干预、放慢节奏、先观察反馈，反而能保留更多选择。先看势，再决定动静。",challenge:"你把快速行动当成主动，却可能是在放大尚未理解的系统阻力。"},
+ {id:"wang",name:"王阳明",en:"WANG YANGMING",role:"自省 / 知行合一",kind:"ancient",glyph:"心",lens:"审查自我动机、价值承诺，并通过小步行动获得真实反馈。",ask:"你真正想解决的是什么？是长期价值，还是焦虑、面子或证明自己？把判断变成小规模行动，用结果检验认知。",challenge:"你说自己已经想清楚，但有没有愿意承担后果并接受现实检验？"}
+];
+const scenes={
+ business:{title:"古今同席 · 商业决策会议",tag:"COUNCIL ROOM / 商业决策厅",sub:"以客户价值为起点，以利益结构为经纬",wall:"观势 · 识人 · 算账 · 定夺",label:"BUSINESS STRATEGY",ids:["sun","gui","fan","drucker","porter","munger"]},
+ strategy:{title:"古今同席 · 战略推演会议",tag:"STRATEGY HALL / 战略推演厅",sub:"先看全局，再选战场；先算代价，再谈胜负",wall:"知彼 · 知己 · 择势 · 制胜",label:"STRATEGIC PLANNING",ids:["sun","gui","machi","porter","taleb","lao"]},
+ investment:{title:"古今同席 · 投资风险会议",tag:"INVESTMENT ROOM / 投资决策厅",sub:"收益需要证据，风险必须有边界",wall:"估值 · 现金流 · 风险 · 退出",label:"INVESTMENT REVIEW",ids:["fan","munger","kah","taleb","drucker","porter"]},
+ people:{title:"古今同席 · 人与组织会议",tag:"PEOPLE & GOVERNANCE / 识人与组织",sub:"观察行为，拆解利益，建立规则",wall:"识人 · 明责 · 激励 · 制衡",label:"STAKEHOLDER REVIEW",ids:["gui","han","machi","kah","wang","drucker"]},
+ life:{title:"古今同席 · 人生选择会议",tag:"LIFE DECISION / 人生决策厅",sub:"看清内心，也看清现实；让选择经得起时间",wall:"自省 · 取舍 · 时机 · 行动",label:"LIFE & CAREER",ids:["lao","wang","kah","munger","taleb","fan"]}
+};
+let currentScene="business",activeId="sun",meeting=false,turn=0,topic="";
+const $=id=>document.getElementById(id);
+function toast(t){$("toast").textContent=t;$("toast").classList.add("show");setTimeout(()=>$("toast").classList.remove("show"),2200)}
+function getPerson(id){return roster.find(p=>p.id===id)}
+function classify(t){if(/投资|股票|基金|股权|融资|回报|估值|资金/.test(t))return"investment";if(/人生|职业|工作|辞职|创业|婚姻|选择|转行/.test(t))return"life";if(/团队|员工|合伙人|关系|识人|管理|人性/.test(t))return"people";if(/战略|竞争|布局|对手|市场进入|行业/.test(t))return"strategy";return"business"}
+function renderScene(key){currentScene=key;const s=scenes[key];$("scene").dataset.scene=key;$("sceneTitle").textContent=s.title;$("sceneTag").textContent=s.tag;$("sceneSub").textContent=s.sub;$("wallText").textContent=s.wall;$("meetingLabel").textContent="MEETING 001 · "+s.label;$("meetingCount").textContent=s.ids.length+" 位智囊已入席";renderMembers();if(meeting)selectSpeaker(s.ids[0])}
+function renderMembers(){const ids=scenes[currentScene].ids;$("members").innerHTML=ids.map(id=>{const p=getPerson(id);return `<div class="member ${id===activeId?"active":""}" data-id="${id}" tabindex="0" role="button" aria-label="选择${p.name}"><div class="avatar ${p.kind}">${p.glyph}</div><div class="member-name">${p.name}</div><div class="member-role">${p.role}</div><div class="seat"></div></div>`}).join("");document.querySelectorAll(".member").forEach(el=>{el.addEventListener("click",()=>selectSpeaker(el.dataset.id));el.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectSpeaker(el.dataset.id)}})})}
+function selectSpeaker(id){activeId=id;const p=getPerson(id);renderMembers();$("speakerBox").className="";$("speakerBox").innerHTML=`<div class="speaker"><div class="avatar ${p.kind}">${p.glyph}</div><div><h3>${p.name}</h3><small>${p.en} · ${p.role}</small></div></div><div class="speech"><em>${meeting?"当前分析视角":"待命 · 思想视角"}</em>${meeting?buildSpeech(p,false):p.lens}</div>`;$("ask").disabled=!meeting;$("nextSpeaker").disabled=!meeting}
+function buildSpeech(p,deep){const t=topic||"当前议题";if(deep)return p.ask+" 针对“"+t+"”，下一步应把关键假设变成可验证的证据，并设置继续、暂停或退出的条件。";return p.lens+" 当前议题是："+t+"。"+p.ask}
+function appendReport(text){const r=$("report");r.className="report";r.textContent=(r.textContent.startsWith("等待议题输入")?"":r.textContent+"\n\n")+"【"+new Date().toLocaleTimeString("zh-CN",{hour:"2-digit",minute:"2-digit"})+"】\n"+text}
+function startMeeting(){topic=$("topic").value.trim();if(!topic){toast("先写下你要解决的决策问题");$("topic").focus();return}let d=$("domain").value;if(d==="auto")d=classify(topic);meeting=true;turn=0;renderScene(d);$("debate").disabled=false;$("verdict").disabled=false;$("report").className="report";$("report").textContent="会议议题："+topic+"\n\n已完成场景识别与智囊召集。以下为本地演示的分析框架，不是外部模型生成的实时结论。";selectSpeaker(scenes[d].ids[0]);appendReport("会议开场：先明确目标、约束、关键事实与最大可承受损失。请逐位听取智囊意见。");toast("会议已开始，智囊入席")}
+$("start").addEventListener("click",startMeeting);
+$("ask").addEventListener("click",()=>{if(!meeting)return;const p=getPerson(activeId);$("speakerBox").querySelector(".speech").innerHTML="<em>深入分析 · "+p.name+"</em>"+buildSpeech(p,true);appendReport(p.name+"："+buildSpeech(p,true))});
+$("nextSpeaker").addEventListener("click",()=>{const ids=scenes[currentScene].ids;turn=(turn+1)%ids.length;selectSpeaker(ids[turn]);$("ask").click()});
+$("debate").addEventListener("click",()=>{if(!meeting)return;const s=scenes[currentScene].ids.map(getPerson);const a=s[0],b=s[Math.min(2,s.length-1)],c=s[s.length-1];appendReport("【交叉质询】\n"+a.name+" 提醒："+a.challenge+"\n"+b.name+" 追问：核心利益、控制权与责任是否匹配？有哪些条款能把口头承诺转化为可执行约束？\n"+c.name+" 反方意见："+c.challenge+"\n\n【需要验证】\n1. 哪些关键事实有独立证据？\n2. 哪个假设一旦不成立，整个方案就不成立？\n3. 能否先做小规模、可退出的验证？");toast("交叉质询已加入会议记录")});
+$("verdict").addEventListener("click",()=>{if(!meeting)return;const p=getPerson(scenes[currentScene].ids[0]);appendReport("【首席决策官 · 初步裁决】\n当前不应仅凭愿景或单一观点直接全面推进。建议先完成三件事：\n1. 事实核验：把需求、资金、权责、交付和时间节点逐项核实。\n2. 小步验证：优先选择成本可控、可量化、可退出的试点。\n3. 风险边界：明确最大投入、付款条件、责任分工、暂停与退出触发条件。\n\n【裁决状态】有条件推进验证，而非无条件全面投入。\n【置信度】低至中：目前缺少议题细节、数据和外部证据。\n【改变判断所需信息】真实订单或需求证据、完整成本与现金流、书面合作条款、最坏损失测算。\n\n这是一份演示用初步模板。接入 AI 模型并提供具体材料后，才可生成针对议题的实质性裁决。");toast("初步裁决已生成")});
+$("reset").addEventListener("click",()=>{meeting=false;turn=0;topic="";$("topic").value="";$("speakerBox").className="empty";$("speakerBox").textContent="会议开始后，选择桌边任意一位智囊，查看他的分析视角。";$("ask").disabled=true;$("nextSpeaker").disabled=true;$("debate").disabled=true;$("verdict").disabled=true;$("report").className="report empty";$("report").textContent="等待议题输入。会议将依次进行独立分析、观点交锋、风险审查与最终裁决。";renderScene("business");toast("会议已重置")});
+$("prevScene").addEventListener("click",()=>{const keys=Object.keys(scenes),i=keys.indexOf(currentScene);renderScene(keys[(i+keys.length-1)%keys.length])});
+$("nextScene").addEventListener("click",()=>{const keys=Object.keys(scenes),i=keys.indexOf(currentScene);renderScene(keys[(i+1)%keys.length])});
+$("domain").addEventListener("change",e=>{if(e.target.value!=="auto")renderScene(e.target.value)});
+renderScene("business");
+</script>
+</body>
+</html>

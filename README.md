@@ -34,6 +34,10 @@ It is a **decision-support tool, not an oracle or substitute for qualified profe
 
    > `/devil 请假设这个方案一年后失败，倒推最可能的失败路径。`
 
+## Interactive Council Room (v1.1 prototype)
+
+Open `app/index.html` in a browser to try the visual meeting room. It includes five scene themes, selectable thinkers, speaker deep-dives, cross-examination, and a chair's preliminary verdict. The current front end uses local demonstration templates and is **not yet connected to a live AI model**. See `app/README.md` for the secure backend integration contract.
+
 ## Project structure
 
 ```text
@@ -43,7 +47,7 @@ It is a **decision-support tool, not an oracle or substitute for qualified profe
 ├── LICENSE
 ├── CHANGELOG.md
 ├── CONTRIBUTING.md
-├── agents/                 # 12 core intellectual lenses
+├── app/                    # Interactive meeting-room front-end prototype\n├── agents/                 # 12 core intellectual lenses
 ├── references/             # Domain frameworks and decision models
 ├── workflows/              # Debate, analysis, pre-mortem, review
 ├── templates/              # Reusable report template
