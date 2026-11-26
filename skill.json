@@ -1,0 +1,11 @@
+{
+  "name": "tianji-decision-council",
+  "version": "1.0.0",
+  "description": "Bilingual AI decision-support skill with structured council debate and risk testing.",
+  "languages": [
+    "zh-CN",
+    "en"
+  ],
+  "license": "MIT",
+  "entrypoint": "SKILL.md"
+}
